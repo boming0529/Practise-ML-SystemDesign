@@ -4,6 +4,7 @@ from nltk.stem import WordNetLemmatizer
 # from nltk.stem.porter import PorterStemmer # if need using PorterStemmer
 from transformers import BertTokenizer
 from nltk import pos_tag, word_tokenize
+import torch
 
 # case1.
 raw_text = 'A person walking with his dog in Montréal !'
@@ -56,8 +57,14 @@ print('After lemmatization:', text)
 ## tokenization
 tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
 tokens = tokenizer.tokenize(text)
+print(tokens)
 print('tokenization:', text)
 
 ##  token convert ids 
 ids = tokenizer.convert_tokens_to_ids(tokens)
 print('token ids:', ids)
+
+## or using transformers BertTokenizer tokenization to ids 
+device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
+token_ids = tokenizer(text, return_tensors="pt").to(device)
+print(token_ids.input_ids)
