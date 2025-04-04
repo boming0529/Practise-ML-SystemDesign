@@ -1,3 +1,5 @@
+# neuron using popo
+# POPO - Plain Old Python Object
 import numpy as np
 
 def ReLU(z):
